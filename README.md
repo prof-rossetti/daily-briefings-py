@@ -1,4 +1,6 @@
-# daily-briefings-py
+# Daily Briefings Service (Python)
+
+Sends you a customized email every morning, with information of interest such as the upcoming weather forecast.
 
 ## Setup
 
@@ -62,3 +64,5 @@ Also demonstrate your ability to send the daily briefing email:
 ```sh
 python -m app.daily_briefing # note the module-syntax invocation
 ```
+
+![Screenshot 2020-03-29 16 29 41](https://user-images.githubusercontent.com/1328807/77859989-8831dd80-71da-11ea-9e6b-68469b7f6f09.png)
