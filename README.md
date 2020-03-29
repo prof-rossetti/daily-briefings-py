@@ -28,6 +28,8 @@ Obtain API Keys from the [Open Weather](https://home.openweathermap.org/api_keys
 ```sh
 # .env example
 
+APP_ENV="development" # or set to "production" on Heroku server
+
 OPEN_WEATHER_API_KEY="___________"
 MY_ZIP="10017"
 
