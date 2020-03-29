@@ -23,7 +23,7 @@ Then, from within the virtual environment, install package dependencies:
 pip install -r requirements.txt
 ```
 
-Obtain API Keys from [Open Weather](https://home.openweathermap.org/api_keys) (weather), and [SendGrid](https://app.sendgrid.com/settings/api_keys) (emails). Create a new file called ".env" in the root directory of this repo, and paste the following contents inside, using your own values as appropriate:
+Obtain API Keys from the [Open Weather](https://home.openweathermap.org/api_keys), and [SendGrid](https://app.sendgrid.com/settings/api_keys) services. Create a new file called ".env" in the root directory of this repo, and paste the following contents inside, using your own values as appropriate:
 
 ```sh
 # .env example
@@ -51,7 +51,9 @@ python app/email_service.py
 #> SENDING EMAIL TO ...
 ```
 
-> NOTE: the Sendgrid emails might first start showing up in spam, until you designate them as coming from a trusted source
+> NOTE: the Sendgrid emails might first start showing up in spam, until you designate them as coming from a trusted source (i.e. "Looks Safe")
+>
+> ![](https://user-images.githubusercontent.com/1328807/77856232-c7a0ff80-71c3-11ea-9dce-7a32b88701c6.png)
 
 As long as each of those scripts works by itself, you can send the daily briefing email:
 
@@ -59,4 +61,4 @@ As long as each of those scripts works by itself, you can send the daily briefin
 python -m app.daily_briefing # note the module-syntax invocation
 ```
 
-![Screenshot 2020-03-29 16 29 41](https://user-images.githubusercontent.com/1328807/77859989-8831dd80-71da-11ea-9e6b-68469b7f6f09.png)
+![](https://user-images.githubusercontent.com/1328807/77860069-173ef580-71db-11ea-83c6-5897bb9f4f51.png)
