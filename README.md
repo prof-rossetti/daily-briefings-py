@@ -21,6 +21,23 @@ Then, from within the virtual environment, install package dependencies:
 pip install -r requirements.txt
 ```
 
+Obtain API Keys from [AlphaVantage](https://www.alphavantage.co/support/#api-key) (stocks), [Open Weather](https://home.openweathermap.org/api_keys) (weather), and [SendGrid](https://app.sendgrid.com/settings/api_keys) (emails). Create a new file called ".env" in the root directory of this repo, and paste the following contents inside, using your own values as appropriate:
+
+```sh
+# .env example
+
+ALPHAVANTAGE_API_KEY="_______"
+MY_STOCKS="MSFT,ZM,WORK"
+
+OPEN_WEATHER_API_KEY="___________"
+MY_ZIP="10017"
+
+SENDGRID_API_KEY="_______________"
+MY_EMAIL_ADDRESS="hello@example.com"
+```
+
+## Usage
+
 From within the virtual environment, ensure you can run each of the files and see them produce their desired results of: printing the latest closing prices, printing today's weather forecast, and sending an example email, respectively.
 
 ```sh
