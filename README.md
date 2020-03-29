@@ -60,5 +60,5 @@ python app/email_service.py
 Also demonstrate your ability to send the daily briefing email:
 
 ```sh
-python app/daily_briefing.py
+python -m app.daily_briefing # note the module-syntax invocation
 ```

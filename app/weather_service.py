@@ -18,36 +18,32 @@ def human_friendly_temp(my_temperature_f):
     degree_sign = u"\N{DEGREE SIGN}"
     return f"{round(my_temperature_f)} {degree_sign}F"
 
-# see: https://openweathermap.org/current
-#weather_url = f"https://api.openweathermap.org/data/2.5/weather?zip={MY_ZIP},{COUNTRY_CODE}&appid={OPEN_WEATHER_API_KEY}"
-request_url = f"https://api.openweathermap.org/data/2.5/forecast?zip={MY_ZIP},{COUNTRY_CODE}&units=imperial&appid={OPEN_WEATHER_API_KEY}"
-response = requests.get(request_url)
-parsed_response = json.loads(response.text)
-#print(type(parsed_response)) #> dict
-#print(parsed_response.keys()) #> dict_keys(['cod', 'message', 'cnt', 'list', 'city'])
-#pprint(parsed_response)
+def get_hourly_forecasts(zip_code=MY_ZIP, country_code=COUNTRY_CODE):
+    # see: https://openweathermap.org/current
+    request_url = f"https://api.openweathermap.org/data/2.5/forecast?zip={MY_ZIP},{COUNTRY_CODE}&units=imperial&appid={OPEN_WEATHER_API_KEY}"
+    response = requests.get(request_url)
+    parsed_response = json.loads(response.text)
+    #print(parsed_response.keys()) #> dict_keys(['cod', 'message', 'cnt', 'list', 'city'])
+    result = {
+        "city_name": parsed_response["city"]["name"],
+        "hourly_forecasts": []
+    }
+    for forecast in parsed_response["list"][0:9]:
+        #print(forecast.keys()) #> dict_keys(['dt', 'main', 'weather', 'clouds', 'wind', 'sys', 'dt_txt'])
+        result["hourly_forecasts"].append({
+            "timestamp": forecast["dt_txt"],
+            "temp": human_friendly_temp(forecast["main"]["feels_like"]),
+            "conditions": forecast["weather"][0]["description"]
+        })
+    return result
 
-city = parsed_response["city"]
-#timezone = city["timezone"] #> -14400
+if __name__ == "__main__":
 
-print("-----------------")
-print(f"TODAY'S WEATHER FORECAST FOR {city['name'].upper()}...")
-print("-----------------")
+    results = get_hourly_forecasts()
 
-for forecast in parsed_response["list"][0:9]:
-    #print(forecast.keys()) #> dict_keys(['dt', 'main', 'weather', 'clouds', 'wind', 'sys', 'dt_txt'])
-    #print("------")
-    #pprint(forecast)
-    #print("HOUR:", forecast["dt_txt"])
-    #print("DESCRIPTION:", forecast["weather"][0]["description"].upper())
-    #print("FEELS LIKE:", forecast["main"]["feels_like"], "(DEGREES F)")
-    print(forecast["dt_txt"],
-        "|",
-        human_friendly_temp(forecast["main"]["feels_like"]),
-        "|",
-        forecast["weather"][0]["description"].upper(),
-    )
+    print("-----------------")
+    print(f"TODAY'S WEATHER FORECAST FOR {results['city_name'].upper()}...")
+    print("-----------------")
 
-#fcast = parsed_response["list"][0]
-
-#breakpoint()
+    for hourly in results["hourly_forecasts"]:
+        print(hourly["timestamp"], "|", hourly["temp"], "|", hourly["conditions"])
