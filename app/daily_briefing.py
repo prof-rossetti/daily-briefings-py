@@ -2,6 +2,7 @@
 
 import os
 from dotenv import load_dotenv
+from datetime import date
 #from pprint import pprint
 
 from app.weather_service import get_hourly_forecasts
@@ -20,7 +21,7 @@ if __name__ == "__main__":
     html += f"<h3>Good Morning, {MY_NAME}!</h3>"
 
     html += "<h4>Today's Date</h4>"
-    html += f"<p>Monday, January 1, 2040</p>"
+    html += f"<p>{date.today().strftime('%A, %B %d, %Y')}</p>"
 
     html += f"<h4>Weather Forecast for {weather_results['city_name'].title()}</h4>"
     html += "<ul>"
