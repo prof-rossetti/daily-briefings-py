@@ -1,3 +1,31 @@
 # app/daily_briefing.py
 
-# TODO
+import os
+from dotenv import load_dotenv
+#from pprint import pprint
+
+from app.weather_service import get_hourly_forecasts
+from app.email_service import send_email
+
+load_dotenv()
+
+MY_NAME = os.getenv("MY_NAME", default="Player 1")
+
+if __name__ == "__main__":
+
+    weather_results = get_hourly_forecasts()
+    #print(weather_results)
+
+    html = ""
+    html += f"<h3>Good Morning, {MY_NAME}!</h3>"
+
+    html += "<h4>Today's Date</h4>"
+    html += f"<p>Monday, January 1, 2040</p>"
+
+    html += f"<h4>Weather Forecast for {weather_results['city_name'].title()}</h4>"
+    html += "<ul>"
+    for hourly in weather_results["hourly_forecasts"]:
+        html += f"<li>{hourly['timestamp']} | {hourly['temp']} | {hourly['conditions'].upper()}</li>"
+    html += "</ul>"
+
+    send_email(subject="[Daily Briefing] My Morning Report", html=html)

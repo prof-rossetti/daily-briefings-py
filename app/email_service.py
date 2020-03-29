@@ -14,7 +14,7 @@ def send_email(subject="[Daily Briefing] This is a test", html="<p>Hello World</
     client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
     print("CLIENT:", type(client))
     print("SUBJECT:", subject)
-    print("HTML:", html)
+    #print("HTML:", html)
     message = Mail(from_email=MY_EMAIL, to_emails=MY_EMAIL, subject=subject, html_content=html)
     try:
         response = client.send(message)
