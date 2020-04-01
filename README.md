@@ -44,12 +44,12 @@ MY_NAME="Jon Snow"
 From within the virtual environment, ensure you can run each of the following files and see them produce their desired results of: printing today's weather forecast, and sending an example email, respectively.
 
 ```sh
-python app/weather_service.py
+python -m app.weather_service # note the module-syntax invocation
 #> TODAY'S WEATHER FORECAST IS ...
 ```
 
 ```sh
-python app/email_service.py
+python -m app.email_service # note the module-syntax invocation
 #> SENDING EMAIL TO ...
 ```
 
