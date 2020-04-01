@@ -39,6 +39,8 @@ MY_EMAIL_ADDRESS="hello@example.com"
 MY_NAME="Jon Snow"
 ```
 
+> IMPORTANT: remember to save the ".env" file :-D
+
 ## Usage
 
 From within the virtual environment, ensure you can run each of the following files and see them produce their desired results of: printing today's weather forecast, and sending an example email, respectively.
