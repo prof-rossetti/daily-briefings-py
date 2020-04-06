@@ -28,7 +28,14 @@ def send_email(subject="[Daily Briefing] This is a test", html="<p>Hello World</
 if __name__ == "__main__":
     example_subject = "[Daily Briefing] This is a test"
 
-    example_html = f"""
+
+    #HTML CODE WRITTEN INTO THE EMAIL BODY TO FORMAT EMAIL
+    #h1-h6 are headings, 1 is largest and gets smaller
+    #p tag is for normal paragraph text
+    #ul is an unformatted list
+    
+    #triple quotes is a multi-line string
+    example_html = f""" 
     <h3>This is a test of the Daily Briefing Service</h3>
 
     <h4>Today's Date</h4>
