@@ -46,7 +46,7 @@ Run the app:
 
 On Mac:
 ```py
-$ FLASK_APP=hello.py flask run
+$ FLASK_APP=web_app flask run
 ```
 From within the virtual environment, ensure you can run each of the following files and see them produce their desired results of: printing today's weather forecast, and sending an example email, respectively.
 
