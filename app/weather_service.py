@@ -41,10 +41,13 @@ def get_hourly_forecasts(zip_code=MY_ZIP, country_code=COUNTRY_CODE):
 
 if __name__ == "__main__":
 
-    if APP_ENV == "development":
+    if APP_ENV == "development": #development mode means on computer
         zip_code = input("PLEASE INPUT A ZIP CODE (e.g. 06510): ")
         results = get_hourly_forecasts(zip_code=zip_code) # invoke with custom params
     else:
+        #if not development mode it's production mode
+        #production mode = on the server
+        # if production mode you want it to run without user entering input
         results = get_hourly_forecasts() # invoke with default params
 
     print("-----------------")
