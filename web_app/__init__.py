@@ -1,3 +1,6 @@
+
+# web_app/__init__.py
+
 import os
 from dotenv import load_dotenv
 from flask import Flask
