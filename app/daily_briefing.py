@@ -16,7 +16,7 @@ MY_NAME = os.getenv("MY_NAME", default="Player 1")
 if __name__ == "__main__":
 
     if APP_ENV == "development":
-        zip_code = input("PLEASE INPUT A ZIP CODE (e.g. 06510): ")
+        zip_code = 44147
         weather_results = get_hourly_forecasts(zip_code=zip_code) # invoke with custom params
     else:
         weather_results = get_hourly_forecasts() # invoke with default params
