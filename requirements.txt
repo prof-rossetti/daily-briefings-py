@@ -3,4 +3,8 @@
 python-dotenv
 requests
 sendgrid==6.0.5
+
 Flask
+
+#Heroku needs this in order to run our app on the server
+gunicorn
