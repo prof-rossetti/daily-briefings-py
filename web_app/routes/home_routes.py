@@ -18,17 +18,17 @@ def about():
     return render_template("about.html")
 
 @home_routes.route("/users/new")
-def register():
+def new_user():
     print("VISITED THE NEW USER REGISTRATION PAGE...")
     #return "Sign Up for our Product! (TODO)"
-    return render_template("registration_form.html")
+    return render_template("new_user_form.html")
 
-@home_routes.route("/users/create", methods=["POST"])
+@home_routes.route("/users/create", methods=["POST"]) #responding to post requests
 def create_user():
-    print("CREATING A NEW USER...")
+    #print("RECIEVED FROM INPUTS")
     print("FORM DATA:", dict(request.form)) #> {'full_name': 'Example User', 'email_address': 'me@example.com', 'country': 'US'}
     user = dict(request.form)
-    # todo: store in a database or google sheet!
-    #flash(f"User '{user['full_name']}' created successfully!", "success")
-    flash(f"User '{user['full_name']}' created successfully! (TODO)", "warning")
+    # todo: store in a database or google sheet! ADD This person to a google sheet datastore
+    flash(f"User '{user['full_name']}' created successfully!", "danger")
+    #flash(f"User '{user['full_name']}' created successfully! (TODO)", "warning")
     return redirect("/")
