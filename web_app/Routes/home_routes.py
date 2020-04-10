@@ -21,7 +21,6 @@ def new_user():
     print("VISITED THE REGISTRATION PAGE")
     return render_template("new_user_form.html")
 
-
 @home_routes.route("/users/create", methods=["POST"])
 def create_user():
     print("CREATING A NEW USER...")
