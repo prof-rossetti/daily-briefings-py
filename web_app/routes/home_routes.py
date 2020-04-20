@@ -24,11 +24,9 @@ def new_user():
 
 @home_routes.route("/users/create", methods=["POST"])
 def create_user():
-    print("CREATING A NEW USER...")
     print("FORM DATA:", dict(request.form)) #> {'full_name': 'Example User', 'email_address': 'me@example.com', 'country': 'US'}
     user = dict(request.form)
     # todo: store in a database or google sheet!
     flash(f"User '{user['full_name']}' created successfully!", "danger")
     #flash(f"User '{user['full_name']}' created successfully! (TODO)", "warning")
-    ##"success" and "warning" are colors from twitter bootstrap for flash messages -- there are more
     return redirect("/")
