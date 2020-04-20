@@ -71,4 +71,7 @@ python -m app.daily_briefing # note the module-syntax invocation
 export FLASK_APP=hello.py
 flask run
 
+export FLASK_APP=web_app 
+flask run
+
 work on new branch called "web"
