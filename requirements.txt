@@ -6,4 +6,5 @@ sendgrid==6.0.5
 
 Flask
 
+#heroku uses this to know which app to run
 gunicorn
