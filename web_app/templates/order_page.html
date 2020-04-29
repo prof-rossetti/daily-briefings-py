@@ -1,0 +1,33 @@
+{% extends "bootstrap_layout.html" %}
+
+{% block content %}
+
+    <h1> Hello </h1>
+    <ul>
+        <form action="/order/page" method="POST"> 
+
+            <label>Restauraunt Code:</label>
+              <form>
+               
+                
+               
+
+                  <input type="radio" id=restaurant name="gender" value="restaurant">
+                  <label for="male">{{ results[0]["name"] }}</label><br>
+                  <input type="radio" id="female" name="gender" value="female">
+                  <label for="female">{{results[1]["name"]}}</label><br>
+                  <input type="radio" id="other" name="gender" value="other">
+                  <label for="other">Other</label>
+                  
+                  <br>
+                  
+                   <button>Submit</button> 
+          
+                 
+   <!--     {% for hourly in results %}
+        <li>{{ hourly["name"] }} | </li>
+    {% endfor %}
+   -->  
+    </ul>
+
+{% endblock %}
