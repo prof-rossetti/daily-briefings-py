@@ -2,6 +2,7 @@
 # web_app/routes/home_routes.py
 
 from flask import Blueprint, render_template, flash, redirect, request
+from app.order_service import restaurant_list
 
 home_routes = Blueprint("home_routes", __name__)
 
@@ -10,6 +11,21 @@ def index():
     print("VISITED THE HOME PAGE...")
     #return "Welcome Home (TODO)"
     return render_template("home.html")
+
+@home_routes.route("/order/page", methods=["GET", "POST"])
+def order_page():
+    print("GENERATING A Order FORECAST...")
+
+    if request.method == "POST":
+        print("FORM DATA:", dict(request.form)) #> {'zip_code': '20057'}
+        #zip_code = request.form["zip_code"]
+    elif request.method == "GET":
+        print("URL PARAMS:", dict(request.args))
+        #zip_code = request.args["zip_code"]
+
+    results = restaurant_list
+    print(results)
+    return render_template("order_page.html", results = results)
 
 @home_routes.route("/about")
 def about():
