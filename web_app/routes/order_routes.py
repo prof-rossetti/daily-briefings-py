@@ -21,4 +21,6 @@ def order_page():
 
     results = restaurant_list
     print(results)
+
+    
     return render_template("order_page.html")

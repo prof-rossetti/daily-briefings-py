@@ -2,7 +2,7 @@
 # web_app/routes/home_routes.py
 
 from flask import Blueprint, render_template, flash, redirect, request
-from app.order_service import restaurant_list
+from app.order_service import restaurant_list, CFA_items, EPI_items, subtotal_calc
 
 home_routes = Blueprint("home_routes", __name__)
 
@@ -10,7 +10,7 @@ home_routes = Blueprint("home_routes", __name__)
 def index():
     print("VISITED THE HOME PAGE...")
     #return "Welcome Home (TODO)"
-    return render_template("home.html")
+    return render_template("order_page.html", results = restaurant_list)
 
 @home_routes.route("/order/page", methods=["GET", "POST"])
 def order_page():
@@ -18,15 +18,49 @@ def order_page():
 
     if request.method == "POST":
         print("FORM DATA:", dict(request.form)) #> {'zip_code': '20057'}
-        #zip_code = request.form["zip_code"]
+        selection = dict(request.form)
     elif request.method == "GET":
         print("URL PARAMS:", dict(request.args))
-        #zip_code = request.args["zip_code"]
+        selection = dict(request.args)
 
-    results = restaurant_list
-    print(results)
-    return render_template("order_page.html", results = results)
+    
+    print(selection["name"])
 
+    if(selection["name"] == "CFA"):
+        print("selected name is CFA")
+        return render_template("order_items.html", results = CFA_items, restaurant = "CFA") #takes me to order_items.html
+    else:
+        return render_template("order_items.html")
+
+@home_routes.route("/order/select", methods=["GET", "POST"])
+def order_select():
+    print("GENERATING Order selection form...")
+
+    if request.method == "POST":
+        print("FORM DATA:", dict(request.form)) #> {'zip_code': '20057'}
+        selection = dict(request.form)
+    elif request.method == "GET":
+        print("URL PARAMS:", dict(request.args))
+        selection = dict(request.args)
+
+    print(selection)
+    
+    return render_template("subtotal.html", results = CFA_items, restauraunt = 'CFA')
+
+@home_routes.route("/order/subtotal", methods=["GET", "POST"])
+def order_subtotal():
+    print("GENERATING Order selection form...")
+
+    if request.method == "POST":
+        print("FORM DATA:", dict(request.form)) #> {'zip_code': '20057'}
+        selection = dict(request.form)
+    elif request.method == "GET":
+        print("URL PARAMS:", dict(request.args))
+        selection = dict(request.args)
+
+    
+    
+    return render_template("subtotal.html", results = CFA_items, restauraunt = 'CFA')
 @home_routes.route("/about")
 def about():
     print("VISITED THE ABOUT PAGE...")

@@ -4,26 +4,23 @@
 
     <h1> Hello </h1>
     <ul>
-        <form action="/order/page" method="POST"> 
+        <form action="/order/page" method="POST">    <!--This takes me to orders/select home route and thus order_items.html-->
 
-            <label>Restauraunt Code:</label>
+            <h2>Restauraunt Selection:</h2>
               <form>
                
-                
+                {% for result in results %}
                
 
-                  <input type="radio" id=restaurant name="gender" value="restaurant">
-                  <label for="male">{{ results[0]["name"] }}</label><br>
-                  <input type="radio" id="female" name="gender" value="female">
-                  <label for="female">{{results[1]["name"]}}</label><br>
-                  <input type="radio" id="other" name="gender" value="other">
-                  <label for="other">Other</label>
+                  <input type="radio" id=restaurant name= "name"  value="{{result['name']}}" multiple>
+                  <label for="male">{{ result["name"] }} <!--${{ result["price"] }}--> </label><br>
                   
+                  {% endfor %}
                   <br>
                   
                    <button>Submit</button> 
           
-                 
+                </form>
    <!--     {% for hourly in results %}
         <li>{{ hourly["name"] }} | </li>
     {% endfor %}
