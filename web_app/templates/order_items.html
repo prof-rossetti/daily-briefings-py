@@ -1,0 +1,26 @@
+
+{% extends "bootstrap_layout.html" %}
+{% block content %}
+
+    <h2>{{restaurant.title()}} Order Form</h2>
+
+    <p>Request A restaurant to order food from ...</p>
+
+ <form action="/order/subtotal" method="POST"> 
+
+      <!--  results = cfa_items list> -->
+        <form>
+            
+            {% for result in results %}
+            
+            <input type='checkbox' name="{{result['name']}}" value="{{result['price']}}"  > 
+            <label for="male">{{ result["name"] }} ${{ result["price"] }} <!--${{ result["price"] }}--> </label><br>
+            {% endfor %}
+        
+            <br>
+             
+            <button>Submit</button> 
+        
+            </form>
+   
+{% endblock %}

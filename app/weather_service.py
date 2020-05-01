@@ -15,6 +15,7 @@ OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
 MY_ZIP = os.getenv("MY_ZIP", default="20057")
 COUNTRY_CODE = os.getenv("COUNTRY_CODE", default="US")
 
+
 def human_friendly_temp(my_temperature_f):
     """Rounds a decimal fahrenheit temperature to the nearest whole degree, adds degree symbol"""
     degree_sign = u"\N{DEGREE SIGN}"
