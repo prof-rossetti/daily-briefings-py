@@ -1,5 +1,6 @@
-# requirements.txt
+# this is the requirements.txt file...
 
 python-dotenv
+pgeocode
 requests
-sendgrid==6.0.5
+sendgrid==6.6.0

@@ -2,8 +2,6 @@
 
 import os
 import json
-from pprint import pprint
-
 import requests
 from dotenv import load_dotenv
 
@@ -11,7 +9,6 @@ from app import APP_ENV
 
 load_dotenv()
 
-OPEN_WEATHER_API_KEY = os.getenv("OPEN_WEATHER_API_KEY")
 MY_ZIP = os.getenv("MY_ZIP", default="20057")
 COUNTRY_CODE = os.getenv("COUNTRY_CODE", default="US")
 
