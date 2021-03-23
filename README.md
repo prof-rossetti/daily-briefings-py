@@ -32,10 +32,11 @@ Create a new file called ".env" in the root directory of this repo, and paste th
 
 APP_ENV="development" # we will set this to "production" on the Heroku server
 
+SENDGRID_API_KEY="_______________"
+SENDER_EMAIL_ADDRESS="hello@example.com"
+
 MY_NAME="Jon Snow"
 MY_ZIP="10017"
-MY_EMAIL_ADDRESS="hello@example.com"
-SENDGRID_API_KEY="_______________"
 ```
 
 ## Usage

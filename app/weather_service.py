@@ -2,51 +2,99 @@
 
 import os
 import json
+from pprint import pprint
+from dateutil.parser import parse as parse_datetime
+
 import requests
 from dotenv import load_dotenv
+from pgeocode import Nominatim as Geocoder
 
 from app import APP_ENV
 
 load_dotenv()
 
-MY_ZIP = os.getenv("MY_ZIP", default="20057")
 COUNTRY_CODE = os.getenv("COUNTRY_CODE", default="US")
+ZIP_CODE = os.getenv("MY_ZIP", default="20057")
 
-def human_friendly_temp(my_temperature_f):
-    """Rounds a decimal fahrenheit temperature to the nearest whole degree, adds degree symbol"""
-    degree_sign = u"\N{DEGREE SIGN}"
-    return f"{round(my_temperature_f)} {degree_sign}F"
 
-def get_hourly_forecasts(zip_code=MY_ZIP, country_code=COUNTRY_CODE):
-    # see: https://openweathermap.org/current
-    request_url = f"https://api.openweathermap.org/data/2.5/forecast?zip={zip_code},{country_code}&units=imperial&appid={OPEN_WEATHER_API_KEY}"
+def get_hourly_forecasts(country_code, zip_code):
+    """
+    Fetches hourly forecast information from the Weather.gov API.
+
+    Returns the forecast along with more information about the requested geography.
+
+    Params:
+        country_code (str) the requested country, like "US"
+        zip_code (str) the requested postal code, like "20057"
+
+    Example:
+        geo, result = get_hourly_forecasts(country_code="US", zip_code="20057")
+    """
+    geocoder = Geocoder(country_code)
+    geo = geocoder.query_postal_code(zip_code)
+    #print(type(geocoder))
+    #print(geo)
+
+    latitude = geo["latitude"] #> "39.7456"
+    longitude = geo["longitude"] #> "-97.0892"
+    request_url = f"https://api.weather.gov/points/{latitude},{longitude}"
     response = requests.get(request_url)
+    print(response.status_code)
     parsed_response = json.loads(response.text)
-    #print(parsed_response.keys()) #> dict_keys(['cod', 'message', 'cnt', 'list', 'city'])
-    result = {
-        "city_name": parsed_response["city"]["name"],
-        "hourly_forecasts": []
-    }
-    for forecast in parsed_response["list"][0:9]:
-        #print(forecast.keys()) #> dict_keys(['dt', 'main', 'weather', 'clouds', 'wind', 'sys', 'dt_txt'])
-        result["hourly_forecasts"].append({
-            "timestamp": forecast["dt_txt"],
-            "temp": human_friendly_temp(forecast["main"]["feels_like"]),
-            "conditions": forecast["weather"][0]["description"]
-        })
-    return result
+
+    forecast_url = parsed_response["properties"]["forecastHourly"]
+    forecast_response = requests.get(forecast_url)
+    print(forecast_response.status_code)
+    parsed_forecast_response = json.loads(forecast_response.text)
+
+    return geo, parsed_forecast_response
+
+def format_temp(f):
+    """
+    Displays a fahrenheit temperature to the nearest whole degree, with a degrees symbol
+
+    Params : f (float or int) temperature in fahrenheit
+    """
+    degree_sign = u"\N{DEGREE SIGN}"
+    return f"{round(f)} {degree_sign}F"
+
+def format_hour(dt_str):
+    """
+    Displays a datetime-looking string as the human friendly hour like "4pm"
+
+    Params : dt_str (str) a datetime like "2021-03-29T21:00:00-04:00"
+    """
+    dt = parse_datetime(dt_str)
+    #return dt.strftime("%I %p") #> "01 PM"
+    return dt.strftime("%H:%M") #> "13:00"
+
 
 if __name__ == "__main__":
 
+    print(f"RUNNING THE WEATHER SERVICE IN {APP_ENV.upper()} MODE...")
+
     if APP_ENV == "development":
-        zip_code = input("PLEASE INPUT A ZIP CODE (e.g. 06510): ")
-        results = get_hourly_forecasts(zip_code=zip_code) # invoke with custom params
+        user_country = input("PLEASE INPUT A COUNTRY CODE (e.g. 'US'): ")
+        user_zip = input("PLEASE INPUT A ZIP CODE (e.g. 20057): ")
     else:
-        results = get_hourly_forecasts() # invoke with default params
+        user_country = COUNTRY_CODE
+        user_zip = ZIP_CODE
 
-    print("-----------------")
-    print(f"TODAY'S WEATHER FORECAST FOR {results['city_name'].upper()}...")
-    print("-----------------")
+    try:
+        geo, result = get_hourly_forecasts(country_code=user_country, zip_code=user_zip)
 
-    for hourly in results["hourly_forecasts"]:
-        print(hourly["timestamp"], "|", hourly["temp"], "|", hourly["conditions"])
+        city_name = f"{geo.place_name}, {geo.state_code}"
+        print("-----------------")
+        print(f"TODAY'S WEATHER FORECAST FOR {city_name.upper()}...")
+        print("-----------------")
+
+        for forecast in result["properties"]["periods"][0:24]:
+            #print(forecast.keys())
+            #pprint(forecast)
+            #breakpoint()
+            print(format_hour(forecast["startTime"]), "|", format_temp(forecast["temperature"]), "|", forecast["shortForecast"])
+
+    except Exception as err:
+        print("OH, SOMETHING WENT WRONG. PLEASE TRY AGAIN...")
+        print(type(err))
+        print(err)
