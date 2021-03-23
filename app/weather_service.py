@@ -72,6 +72,8 @@ def format_hour(dt_str):
     Displays a datetime-looking string as the human friendly hour like "4pm"
 
     Params : dt_str (str) a datetime like "2021-03-29T21:00:00-04:00"
+
+    See: https://github.com/prof-rossetti/intro-to-python/blob/master/notes/python/modules/datetime.md
     """
     dt = parse_datetime(dt_str)
     #return dt.strftime("%I %p") #> "01 PM"

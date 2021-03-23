@@ -53,7 +53,7 @@ heroku config:set APP_ENV="production"
 heroku config:set COUNTRY_CODE="US"
 heroku config:set ZIP_CODE="20057"
 heroku config:set SENDGRID_API_KEY="_________"
-heroku config:set MY_EMAIL_ADDRESS="someone@gmail.com"
+heroku config:set SENDER_EMAIL_ADDRESS="someone@gmail.com"
 heroku config:set MY_NAME="Jon Snow"
 ```
 
