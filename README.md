@@ -30,13 +30,12 @@ Create a new file called ".env" in the root directory of this repo, and paste th
 ```sh
 # these are example contents for the ".env" file:
 
-APP_ENV="development" # we will set this to "production" on the Heroku server
-
 SENDGRID_API_KEY="_______________"
 SENDER_EMAIL_ADDRESS="hello@example.com"
 
 MY_NAME="Jon Snow"
-MY_ZIP="10017"
+ZIP_CODE="10017"
+COUNTRY_CODE="US"
 ```
 
 ## Usage
@@ -45,14 +44,14 @@ Printing today's weather forecast (to test the Weather.gov API):
 
 ```sh
 python -m app.weather_service
-#> TODAY'S WEATHER FORECAST IS ...
+# ... OR ...
+# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="06405" python -m app.weather_service
 ```
 
 Sending an example email (to test the SendGrid service):
 
 ```sh
 python -m app.email_service
-#> SENDING EMAIL TO ...
 ```
 
 > NOTE: the SendGrid emails might first start showing up in spam, until you designate them as coming from a trusted source (i.e. "Looks Safe")

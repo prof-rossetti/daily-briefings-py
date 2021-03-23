@@ -8,13 +8,14 @@ from dateutil.parser import parse as parse_datetime
 import requests
 from dotenv import load_dotenv
 from pgeocode import Nominatim as Geocoder
+from pandas import isnull
 
 from app import APP_ENV
 
 load_dotenv()
 
 COUNTRY_CODE = os.getenv("COUNTRY_CODE", default="US")
-ZIP_CODE = os.getenv("MY_ZIP", default="20057")
+ZIP_CODE = os.getenv("ZIP_CODE", default="20057")
 
 
 def get_hourly_forecasts(country_code, zip_code):
@@ -33,20 +34,28 @@ def get_hourly_forecasts(country_code, zip_code):
     geocoder = Geocoder(country_code)
     geo = geocoder.query_postal_code(zip_code)
     #print(type(geocoder))
-    #print(geo)
+    #print(type(geo), geo)
 
-    latitude = geo["latitude"] #> "39.7456"
-    longitude = geo["longitude"] #> "-97.0892"
-    request_url = f"https://api.weather.gov/points/{latitude},{longitude}"
+    if isnull(geo.latitude) or isnull(geo.longitude): # we are using a special null-checking method from pandas because the geo is a pandas Series
+        #print("INVALID GEOGRAPHY...")
+        return geo, None
+
+    request_url = f"https://api.weather.gov/points/{geo.latitude},{geo.longitude}"
     response = requests.get(request_url)
-    print(response.status_code)
     parsed_response = json.loads(response.text)
+    #print(response.status_code)
+    if response.status_code != 200:
+        #print(parsed_response)
+        return geo, None
 
     forecast_url = parsed_response["properties"]["forecastHourly"]
     forecast_response = requests.get(forecast_url)
-    print(forecast_response.status_code)
-    parsed_forecast_response = json.loads(forecast_response.text)
+    #print(forecast_response.status_code)
+    if response.status_code != 200:
+        #print(parsed_response)
+        return geo, None
 
+    parsed_forecast_response = json.loads(forecast_response.text)
     return geo, parsed_forecast_response
 
 def format_temp(f):
@@ -73,28 +82,33 @@ if __name__ == "__main__":
 
     print(f"RUNNING THE WEATHER SERVICE IN {APP_ENV.upper()} MODE...")
 
+    # CAPTURE INPUTS
+
     if APP_ENV == "development":
         user_country = input("PLEASE INPUT A COUNTRY CODE (e.g. 'US'): ")
         user_zip = input("PLEASE INPUT A ZIP CODE (e.g. 20057): ")
     else:
         user_country = COUNTRY_CODE
         user_zip = ZIP_CODE
+    print("COUNTRY:", user_country)
+    print("ZIP CODE:", user_zip)
 
-    try:
-        geo, result = get_hourly_forecasts(country_code=user_country, zip_code=user_zip)
+    # FETCH DATA
 
-        city_name = f"{geo.place_name}, {geo.state_code}"
-        print("-----------------")
-        print(f"TODAY'S WEATHER FORECAST FOR {city_name.upper()}...")
-        print("-----------------")
+    geo, result = get_hourly_forecasts(country_code=user_country, zip_code=user_zip)
+    if not (geo.any() and result):
+        print("INVALID GEOGRAPHY. PLEASE CHECK YOUR INPUTS AND TRY AGAIN!")
+        exit()
 
-        for forecast in result["properties"]["periods"][0:24]:
-            #print(forecast.keys())
-            #pprint(forecast)
-            #breakpoint()
-            print(format_hour(forecast["startTime"]), "|", format_temp(forecast["temperature"]), "|", forecast["shortForecast"])
+    # DISPLAY OUTPUTS
 
-    except Exception as err:
-        print("OH, SOMETHING WENT WRONG. PLEASE TRY AGAIN...")
-        print(type(err))
-        print(err)
+    city_name = f"{geo.place_name}, {geo.state_code}"
+    print("-----------------")
+    print(f"TODAY'S WEATHER FORECAST FOR {city_name.upper()}...")
+    print("-----------------")
+
+    for forecast in result["properties"]["periods"][0:24]:
+        #print(forecast.keys())
+        #pprint(forecast)
+        #breakpoint()
+        print(format_hour(forecast["startTime"]), "|", format_temp(forecast["temperature"]), "|", forecast["shortForecast"])
