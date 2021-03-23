@@ -17,6 +17,14 @@ load_dotenv()
 COUNTRY_CODE = os.getenv("COUNTRY_CODE", default="US")
 ZIP_CODE = os.getenv("ZIP_CODE", default="20057")
 
+def set_geography():
+    if APP_ENV == "development":
+        user_country = input("PLEASE INPUT A COUNTRY CODE (e.g. 'US'): ")
+        user_zip = input("PLEASE INPUT A ZIP CODE (e.g. 20057): ")
+    else:
+        user_country = COUNTRY_CODE
+        user_zip = ZIP_CODE
+    return user_country, user_zip
 
 def get_hourly_forecasts(country_code, zip_code):
     """
@@ -86,12 +94,7 @@ if __name__ == "__main__":
 
     # CAPTURE INPUTS
 
-    if APP_ENV == "development":
-        user_country = input("PLEASE INPUT A COUNTRY CODE (e.g. 'US'): ")
-        user_zip = input("PLEASE INPUT A ZIP CODE (e.g. 20057): ")
-    else:
-        user_country = COUNTRY_CODE
-        user_zip = ZIP_CODE
+    user_country, user_zip = set_geography()
     print("COUNTRY:", user_country)
     print("ZIP CODE:", user_zip)
 

@@ -30,12 +30,14 @@ Create a new file called ".env" in the root directory of this repo, and paste th
 ```sh
 # these are example contents for the ".env" file:
 
+#APP_ENV="development"
+
 SENDGRID_API_KEY="_______________"
 SENDER_EMAIL_ADDRESS="hello@example.com"
 
-#MY_NAME="Jon Snow"
-#ZIP_CODE="10017"
 #COUNTRY_CODE="US"
+#ZIP_CODE="10017"
+USER_NAME="Jon Snow"
 ```
 
 ## Usage
@@ -45,7 +47,7 @@ Printing today's weather forecast (to test the Weather.gov API):
 ```sh
 python -m app.weather_service
 # ... OR ...
-# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="06405" python -m app.weather_service
+# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.weather_service
 ```
 
 Sending an example email (to test the SendGrid service):
@@ -61,7 +63,9 @@ python -m app.email_service
 Sending the weather forecast in an email:
 
 ```sh
-python -m app.daily_briefing # note the module-syntax invocation
+python -m app.daily_briefing
+# ... OR ...
+# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.daily_briefing
 ```
 
 ![](https://user-images.githubusercontent.com/1328807/77860069-173ef580-71db-11ea-83c6-5897bb9f4f51.png)
