@@ -17,6 +17,8 @@ load_dotenv()
 COUNTRY_CODE = os.getenv("COUNTRY_CODE", default="US")
 ZIP_CODE = os.getenv("ZIP_CODE", default="20057")
 
+DEGREE_SIGN = u"\N{DEGREE SIGN}"
+
 def set_geography():
     if APP_ENV == "development":
         user_country = input("PLEASE INPUT A COUNTRY CODE (e.g. 'US'): ")
@@ -76,12 +78,11 @@ def format_temp(temp, temp_unit="F"):
         temp (float or int) temperature
         temp_unit (str) "F" or "C"
     """
-    degree_sign = u"\N{DEGREE SIGN}"
-    return f"{round(temp)} {degree_sign}{temp_unit}"
+    return f"{round(temp)} {DEGREE_SIGN}{temp_unit}"
 
 def format_hour(dt_str):
     """
-    Displays a datetime-looking string as the human friendly hour like "4pm"
+    Displays a datetime-looking string as the human friendly hour like "4pm" or "16:00"
 
     Params : dt_str (str) a datetime like "2021-03-29T21:00:00-04:00"
 
