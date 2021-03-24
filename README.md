@@ -1,4 +1,4 @@
-# Daily Briefings Service (Python)
+# Daily Briefings App (Python)
 
 Sends you a customized email every morning, with information of interest such as the upcoming weather forecast in your zip code.
 
@@ -69,6 +69,14 @@ python -m app.daily_briefing
 ```
 
 ![](https://user-images.githubusercontent.com/1328807/77860069-173ef580-71db-11ea-83c6-5897bb9f4f51.png)
+
+## Testing
+
+Running tests:
+
+```sh
+pytest
+```
 
 ## [Deploying](/DEPLOYING.md)
 
