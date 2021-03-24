@@ -1,8 +1,9 @@
 # this is the requirements.txt file...
 
 #
-# DEV / PROD
+# DEVELOPMENT / PRODUCTION
 #
+
 python-dotenv
 pgeocode
 pandas
@@ -10,11 +11,7 @@ requests
 sendgrid==6.6.0
 
 #
-# PROD ONLY
-#
-# gunicorn
-
-#
 # TEST
 #
+
 pytest
