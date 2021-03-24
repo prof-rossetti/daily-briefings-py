@@ -2,7 +2,7 @@
 import os
 import pytest
 
-from app.weather_service import get_hourly_forecasts, DEGREE_SIGN
+from app.weather_service import get_hourly_forecasts, DEGREE_SIGN, format_hour
 
 CI_ENV = os.getenv("CI") == "true"
 
@@ -16,3 +16,6 @@ def test_hourly_forecasts():
     assert sorted(list(forecast.keys())) == ["conditions", "image_url", "temp", "timestamp"]
     assert forecast["timestamp"].endswith(":00")
     assert f"{DEGREE_SIGN}F" in forecast["temp"]
+
+def test_hour_formatting():
+    assert format_hour("2021-03-29T21:00:00-04:00") == "21:00"
