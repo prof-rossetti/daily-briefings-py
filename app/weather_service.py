@@ -30,50 +30,54 @@ def get_hourly_forecasts(country_code, zip_code):
     """
     Fetches hourly forecast information from the Weather.gov API.
 
-    Returns the forecast along with more information about the requested geography.
-
     Params:
         country_code (str) the requested country, like "US"
         zip_code (str) the requested postal code, like "20057"
 
     Example:
-        geo, result = get_hourly_forecasts(country_code="US", zip_code="20057")
+        result = get_hourly_forecasts(country_code="US", zip_code="20057")
+
+    Returns the forecast info "hourly_forecasts" along with more information about the requested geography ("city_name").
     """
     geocoder = Geocoder(country_code)
     geo = geocoder.query_postal_code(zip_code)
-    #print(type(geocoder))
-    #print(type(geo), geo)
-
-    if isnull(geo.latitude) or isnull(geo.longitude): # we are using a special null-checking method from pandas because the geo is a pandas Series
-        #print("INVALID GEOGRAPHY...")
-        return geo, None
+    if isnull(geo.latitude) or isnull(geo.longitude): # using null-checking method from pandas because geo is a pandas Series
+        return None
+    city_name = f"{geo.place_name}, {geo.state_code}" #> Washington, DC
 
     request_url = f"https://api.weather.gov/points/{geo.latitude},{geo.longitude}"
     response = requests.get(request_url)
-    parsed_response = json.loads(response.text)
-    #print(response.status_code)
     if response.status_code != 200:
-        #print(parsed_response)
-        return geo, None
+        return None
+    parsed_response = json.loads(response.text)
 
     forecast_url = parsed_response["properties"]["forecastHourly"]
     forecast_response = requests.get(forecast_url)
-    #print(forecast_response.status_code)
-    if response.status_code != 200:
-        #print(parsed_response)
-        return geo, None
-
+    if forecast_response.status_code != 200:
+        return None
     parsed_forecast_response = json.loads(forecast_response.text)
-    return geo, parsed_forecast_response
 
-def format_temp(f):
+    hourly_forecasts = []
+    for period in parsed_forecast_response["properties"]["periods"][0:24]:
+        hourly_forecasts.append({
+            "timestamp": format_hour(period["startTime"]),
+            "temp": format_temp(period["temperature"], period["temperatureUnit"]),
+            "conditions": period["shortForecast"],
+            "image_url": period["icon"]
+    })
+
+    return {"city_name": city_name, "hourly_forecasts": hourly_forecasts}
+
+def format_temp(temp, temp_unit="F"):
     """
-    Displays a fahrenheit temperature to the nearest whole degree, with a degrees symbol
+    Displays a temperature to the nearest whole degree, with its temp unit a degrees symbol
 
-    Params : f (float or int) temperature in fahrenheit
+    Params :
+        temp (float or int) temperature
+        temp_unit (str) "F" or "C"
     """
     degree_sign = u"\N{DEGREE SIGN}"
-    return f"{round(f)} {degree_sign}F"
+    return f"{round(temp)} {degree_sign}{temp_unit}"
 
 def format_hour(dt_str):
     """
@@ -100,20 +104,16 @@ if __name__ == "__main__":
 
     # FETCH DATA
 
-    geo, result = get_hourly_forecasts(country_code=user_country, zip_code=user_zip)
-    if not (geo.any() and result):
+    result = get_hourly_forecasts(country_code=user_country, zip_code=user_zip)
+    if not result:
         print("INVALID GEOGRAPHY. PLEASE CHECK YOUR INPUTS AND TRY AGAIN!")
         exit()
 
     # DISPLAY OUTPUTS
 
-    city_name = f"{geo.place_name}, {geo.state_code}"
     print("-----------------")
-    print(f"TODAY'S WEATHER FORECAST FOR {city_name.upper()}...")
+    print(f"TODAY'S WEATHER FORECAST FOR {result['city_name'].upper()}...")
     print("-----------------")
 
-    for forecast in result["properties"]["periods"][0:24]:
-        #print(forecast.keys())
-        #pprint(forecast)
-        #breakpoint()
-        print(format_hour(forecast["startTime"]), "|", format_temp(forecast["temperature"]), "|", forecast["shortForecast"])
+    for forecast in result["hourly_forecasts"]:
+        print(forecast["timestamp"], "|", forecast["temp"], "|", forecast["conditions"])
