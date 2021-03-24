@@ -70,7 +70,7 @@ heroku config
 After this configuration process is complete, you are finally ready to "deploy" the application's source code to the Heroku server:
 
 ```sh
-git push heroku master
+git push heroku main
 ```
 
 > NOTE: any time you update your source code, you can repeat this deployment command to upload your new code onto the server
