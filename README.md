@@ -45,6 +45,8 @@ SENDER_EMAIL_ADDRESS="_______________"
 
 ## Usage
 
+### Background Services
+
 Printing today's weather forecast (to test the Weather.gov API):
 
 ```sh
@@ -69,6 +71,15 @@ python -m app.daily_briefing
 # APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.daily_briefing
 ```
 
+### Web App
+
+Run the app:
+
+```sh
+FLASK_APP=web_app flask run
+```
+
+Then visit localhost:5000 in the browser!
 
 ## Testing
 
