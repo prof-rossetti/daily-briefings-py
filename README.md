@@ -34,9 +34,11 @@ Create a new file called ".env" in the root directory of this repo, and paste th
 ```sh
 # these are example contents for the ".env" file:
 
+# required vars:
 SENDGRID_API_KEY="_______________"
 SENDER_EMAIL_ADDRESS="_______________"
 
+# optional vars:
 #APP_ENV="development"
 #COUNTRY_CODE="US"
 #ZIP_CODE="10017"
@@ -49,8 +51,9 @@ Printing today's weather forecast (to test the Weather.gov API):
 
 ```sh
 python -m app.weather_service
-# ... OR in production mode:
-# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.weather_service
+
+# in production mode:
+APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.weather_service
 ```
 
 Sending an example email (to test the SendGrid service):
@@ -65,8 +68,9 @@ Sending the weather forecast in an email:
 
 ```sh
 python -m app.daily_briefing
-# ... OR in production mode:
-# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.daily_briefing
+
+# in production mode:
+APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.daily_briefing
 ```
 
 
@@ -76,8 +80,9 @@ Running tests:
 
 ```sh
 pytest
-# ... OR in CI mode:
-# CI=true pytest
+
+# in CI mode:
+CI=true pytest
 ```
 
 
