@@ -32,11 +32,13 @@ if __name__ == "__main__":
 
     # DISPLAY OUTPUTS
 
+    todays_date = date.today().strftime('%A, %B %d, %Y')
+
     html = ""
     html += f"<h3>Good Morning, {USER_NAME}!</h3>"
 
     html += "<h4>Today's Date</h4>"
-    html += f"<p>{date.today().strftime('%A, %B %d, %Y')}</p>"
+    html += f"<p>{todays_date}</p>"
 
     html += f"<h4>Weather Forecast for {result['city_name']}</h4>"
     html += "<ul>"

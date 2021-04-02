@@ -47,7 +47,7 @@ Printing today's weather forecast (to test the Weather.gov API):
 ```sh
 python -m app.weather_service
 # ... OR ...
-# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.weather_service
+APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.weather_service
 ```
 
 Sending an example email (to test the SendGrid service):
@@ -57,15 +57,13 @@ python -m app.email_service
 ```
 
 > NOTE: the SendGrid emails might first start showing up in spam, until you designate them as coming from a trusted source (i.e. "Looks Safe")
->
-> ![](https://user-images.githubusercontent.com/1328807/77856232-c7a0ff80-71c3-11ea-9dce-7a32b88701c6.png)
 
 Sending the weather forecast in an email:
 
 ```sh
 python -m app.daily_briefing
 # ... OR ...
-# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.daily_briefing
+APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.daily_briefing
 ```
 
 ![](https://user-images.githubusercontent.com/1328807/77860069-173ef580-71db-11ea-83c6-5897bb9f4f51.png)
@@ -76,7 +74,10 @@ Running tests:
 
 ```sh
 pytest
+# ... OR in CI mode:
+CI=true pytest
 ```
+
 
 ## [Deploying](/DEPLOYING.md)
 

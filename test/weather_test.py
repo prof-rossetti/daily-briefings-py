@@ -17,5 +17,9 @@ def test_hourly_forecasts():
     assert forecast["timestamp"].endswith(":00")
     assert f"{DEGREE_SIGN}F" in forecast["temp"]
 
+    # with invalid geography, fails gracefully and returns nothing:
+    invalid_results = get_hourly_forecasts(country_code="US", zip_code="OOPS")
+    assert invalid_results == None
+
 def test_hour_formatting():
     assert format_hour("2021-03-29T21:00:00-04:00") == "21:00"

@@ -30,7 +30,7 @@ def set_geography():
 
 def get_hourly_forecasts(country_code, zip_code):
     """
-    Fetches hourly forecast information from the Weather.gov API.
+    Fetches hourly forecast information from the Weather.gov API, for a given country and zip code.
 
     Params:
         country_code (str) the requested country, like "US"
@@ -43,10 +43,11 @@ def get_hourly_forecasts(country_code, zip_code):
     """
     geocoder = Geocoder(country_code)
     geo = geocoder.query_postal_code(zip_code)
-    if isnull(geo.latitude) or isnull(geo.longitude): # using null-checking method from pandas because geo is a pandas Series
+    # using a null-checking method from pandas because geo is a pandas Series:
+    if isnull(geo.latitude) or isnull(geo.longitude) or isnull(geo.place_name) or isnull(geo.state_code):
         return None
-    city_name = f"{geo.place_name}, {geo.state_code}" #> Washington, DC
 
+    # unfortunately the weather.gov api makes us do two requests or use a more sophisticated caching strategy (see api docs)
     request_url = f"https://api.weather.gov/points/{geo.latitude},{geo.longitude}"
     response = requests.get(request_url)
     if response.status_code != 200:
@@ -59,6 +60,10 @@ def get_hourly_forecasts(country_code, zip_code):
         return None
     parsed_forecast_response = json.loads(forecast_response.text)
 
+    # consider returning the raw geo and parsed_forecast_response objects,
+    # ... and using a different method to parse them further!
+    # ... but we're doing that here for now as well:
+    city_name = f"{geo.place_name}, {geo.state_code}" #> Washington, DC
     hourly_forecasts = []
     for period in parsed_forecast_response["properties"]["periods"][0:24]:
         hourly_forecasts.append({
@@ -67,7 +72,6 @@ def get_hourly_forecasts(country_code, zip_code):
             "conditions": period["shortForecast"],
             "image_url": period["icon"]
     })
-
     return {"city_name": city_name, "hourly_forecasts": hourly_forecasts}
 
 def format_temp(temp, temp_unit="F"):
