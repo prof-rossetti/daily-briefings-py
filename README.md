@@ -1,68 +1,88 @@
-# Daily Briefings Service (Python)
+# Daily Briefings App (Python)
 
-Sends you a customized email every morning, with information of interest such as the upcoming weather forecast.
+Sends you a customized email every morning, with information of interest, such as the upcoming weather forecast for your zip code.
 
-## Setup
+![](https://user-images.githubusercontent.com/1328807/77860069-173ef580-71db-11ea-83c6-5897bb9f4f51.png)
 
-Fork this repo and clone it onto your local computer (for example to your Desktop), then navigate there from the command-line:
+## Installation
+
+Fork [this repo](https://github.com/prof-rossetti/daily-briefings-py), then clone or download the forked repo onto your local computer (for example to the Desktop), then navigate there from the command-line:
 
 ```sh
 cd ~/Desktop/daily-briefings-py/
 ```
 
-Create and activate a new Anaconda virtual environment, perhaps named "briefings-env":
+Use Anaconda to create and activate a new virtual environment, perhaps called "briefings-env":
 
 ```sh
-conda create -n briefings-env python=3.7
+conda create -n briefings-env python=3.8
 conda activate briefings-env
 ```
 
-Then, from within the virtual environment, install package dependencies:
+Then, within an active virtual environment, install package dependencies:
 
 ```sh
 pip install -r requirements.txt
 ```
 
-Obtain API Keys from the [Open Weather](https://home.openweathermap.org/api_keys), and [SendGrid](https://app.sendgrid.com/settings/api_keys) services. Create a new file called ".env" in the root directory of this repo, and paste the following contents inside, using your own values as appropriate:
+## Configuration
+
+Follow these [SendGrid setup instructions](https://github.com/prof-rossetti/intro-to-python/blob/master/notes/python/packages/sendgrid.md#setup) to sign up for a SendGrid account, configure your account's email address (i.e. `SENDER_EMAIL_ADDRESS`), and obtain an API key (i.e. `SENDGRID_API_KEY`).
+
+Create a new file called ".env" in the root directory of this repo, and paste the following contents inside, using your own values as appropriate:
 
 ```sh
-# .env example
-
-APP_ENV="development" # or set to "production" on Heroku server
-
-OPEN_WEATHER_API_KEY="___________"
-MY_ZIP="10017"
+# these are example contents for the ".env" file:
 
 SENDGRID_API_KEY="_______________"
-MY_EMAIL_ADDRESS="hello@example.com"
+SENDER_EMAIL_ADDRESS="_______________"
 
-MY_NAME="Jon Snow"
+#APP_ENV="development"
+#COUNTRY_CODE="US"
+#ZIP_CODE="10017"
+#USER_NAME="Jon Snow"
 ```
-
-> IMPORTANT: remember to save the ".env" file :-D
 
 ## Usage
 
-From within the virtual environment, ensure you can run each of the following files and see them produce their desired results of: printing today's weather forecast, and sending an example email, respectively.
+Printing today's weather forecast (to test the Weather.gov API):
 
 ```sh
-python -m app.weather_service # note the module-syntax invocation
-#> TODAY'S WEATHER FORECAST IS ...
+python -m app.weather_service
+# ... OR in production mode:
+# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.weather_service
 ```
+
+Sending an example email (to test the SendGrid service):
 
 ```sh
-python -m app.email_service # note the module-syntax invocation
-#> SENDING EMAIL TO ...
+python -m app.email_service
 ```
 
-> NOTE: the Sendgrid emails might first start showing up in spam, until you designate them as coming from a trusted source (i.e. "Looks Safe")
->
-> ![](https://user-images.githubusercontent.com/1328807/77856232-c7a0ff80-71c3-11ea-9dce-7a32b88701c6.png)
+> NOTE: the SendGrid emails might first start showing up in spam, until you designate them as coming from a trusted source (i.e. "Looks Safe")
 
-As long as each of those scripts works by itself, you can send the daily briefing email:
+Sending the weather forecast in an email:
 
 ```sh
-python -m app.daily_briefing # note the module-syntax invocation
+python -m app.daily_briefing
+# ... OR in production mode:
+# APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.daily_briefing
 ```
 
-![](https://user-images.githubusercontent.com/1328807/77860069-173ef580-71db-11ea-83c6-5897bb9f4f51.png)
+
+## Testing
+
+Running tests:
+
+```sh
+pytest
+# ... OR in CI mode:
+# CI=true pytest
+```
+
+
+## [Deploying](/DEPLOYING.md)
+
+Follow the deployment instructions to deploy the app to a remote server and schedule the server to send you the weather forecast email every day.
+
+## [License](/LICENSE.md)

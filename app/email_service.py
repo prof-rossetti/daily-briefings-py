@@ -7,23 +7,31 @@ from sendgrid.helpers.mail import Mail
 
 load_dotenv()
 
-SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
-MY_EMAIL = os.environ.get("MY_EMAIL_ADDRESS")
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 
-def send_email(subject="[Daily Briefing] This is a test", html="<p>Hello World</p>"):
+
+def send_email(subject="[Daily Briefing] This is a test", html="<p>Hello World</p>", recipient_address=SENDER_EMAIL_ADDRESS):
+    """
+    Sends an email with the specified subject and html contents to the specified recipient,
+
+    If recipient is not specified, sends to the admin's sender address by default.
+    """
     client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
     print("CLIENT:", type(client))
     print("SUBJECT:", subject)
     #print("HTML:", html)
-    message = Mail(from_email=MY_EMAIL, to_emails=MY_EMAIL, subject=subject, html_content=html)
+
+    message = Mail(from_email=SENDER_EMAIL_ADDRESS, to_emails=recipient_address, subject=subject, html_content=html)
     try:
         response = client.send(message)
         print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
         print(response.status_code) #> 202 indicates SUCCESS
         return response
     except Exception as e:
-        print("OOPS", e.message)
+        print("OOPS", type(e), e.message)
         return None
+
 
 if __name__ == "__main__":
     example_subject = "[Daily Briefing] This is a test"
@@ -36,9 +44,9 @@ if __name__ == "__main__":
 
     <h4>My Stocks</h4>
     <ul>
-        <li>MSFT | +04%</li>
-        <li>WORK | +20%</li>
-        <li>ZM | +44%</li>
+        <li>MSFT | +3%</li>
+        <li>GOOG | +2%</li>
+        <li>AAPL | +4%</li>
     </ul>
 
     <h4>My Forecast</h4>
