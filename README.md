@@ -47,6 +47,8 @@ SENDER_EMAIL_ADDRESS="_______________"
 
 ## Usage
 
+### Background Jobs
+
 Printing today's weather forecast (to test the Weather.gov API):
 
 ```sh
@@ -73,6 +75,19 @@ python -m app.daily_briefing
 APP_ENV="production" COUNTRY_CODE="US" ZIP_CODE="20057" python -m app.daily_briefing
 ```
 
+### Web App
+
+Run the web app:
+
+```sh
+# Mac OS:
+FLASK_APP=hello.py flask run
+
+# Windows OS:
+# ... if `export` doesn't work for you, try `set` instead
+export FLASK_APP=hello.py
+flask run
+```
 
 ## Testing
 
