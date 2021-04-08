@@ -81,11 +81,11 @@ Run the web app:
 
 ```sh
 # Mac OS:
-FLASK_APP=hello.py flask run
+FLASK_APP=web_app flask run
 
 # Windows OS:
 # ... if `export` doesn't work for you, try `set` instead
-export FLASK_APP=hello.py
+export FLASK_APP=web_app
 flask run
 ```
 
