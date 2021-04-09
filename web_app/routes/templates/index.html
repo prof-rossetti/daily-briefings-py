@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Weather App | Uses the Weather.gov API</title>
+</head>
+<body>
+
+    <h1>My Weather App</h1>
+
+    <h2>Weather Form</h2>
+
+    <p>Request an hourly forecast for your zip code...</p>
+
+    <form action="/weather/forecast" method="POST">
+
+        <label>Zip Code:</label>
+        <input type="text" name="zip_code" placeholder="20057" value="20057">
+        <br>
+
+        <button>Submit</button>
+    </form>
+
+</body>
+</html>
