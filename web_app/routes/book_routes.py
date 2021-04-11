@@ -14,8 +14,8 @@ def list_books():
     ] # some dummy / placeholder data
     return jsonify(books)
 
-@app.route("/api/books/<int:book_id>")
-@app.route("/api/books/<int:book_id>.json")
+@book_routes.route("/api/books/<int:book_id>")
+@book_routes.route("/api/books/<int:book_id>.json")
 def get_book(book_id):
     print("BOOK...", book_id)
     book = {"id": book_id, "title": f"Example Book", "year": 2000} # some dummy / placeholder data
