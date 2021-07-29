@@ -72,7 +72,8 @@ def get_hourly_forecasts(country_code, zip_code):
             "conditions": period["shortForecast"],
             "image_url": period["icon"]
     })
-    return {"city_name": city_name, "hourly_forecasts": hourly_forecasts}
+    #return {"city_name": city_name, "hourly_forecasts": hourly_forecasts}
+    return {"hourly_forecasts": hourly_forecasts}
 
 def format_temp(temp, temp_unit="F"):
     """
@@ -93,8 +94,8 @@ def format_hour(dt_str):
     See: https://github.com/prof-rossetti/intro-to-python/blob/master/notes/python/modules/datetime.md
     """
     dt = parse_datetime(dt_str)
-    #return dt.strftime("%I %p") #> "01 PM"
-    return dt.strftime("%H:%M") #> "13:00"
+    return dt.strftime("%I %p") #> "01 PM"
+    #return dt.strftime("%H:%M") #> "13:00"
 
 
 if __name__ == "__main__":
