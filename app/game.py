@@ -71,6 +71,7 @@ def approach_3(user_choice, computer_choice):
 
 
 
+
 if __name__ == "__main__":
     u = "rock"
     c = "paper"
