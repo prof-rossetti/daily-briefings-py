@@ -10,6 +10,9 @@ pandas
 requests
 sendgrid==6.6.0
 
+Flask
+gunicorn # heroku wants to use this to run the prod web server (as specified in the Procfile)
+
 #
 # TEST
 #
