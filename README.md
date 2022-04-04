@@ -6,7 +6,7 @@ Sends you a customized email every morning, with information of interest, such a
 
 ## Installation
 
-Fork [this repo](https://github.com/prof-rossetti/daily-briefings-py), then clone or download the forked repo onto your local computer (for example to the Desktop), then navigate there from the command-line:
+Create a copy of this [template repo](https://github.com/prof-rossetti/daily-briefings-py), then clone or download your new repo onto your local computer (for example to the Desktop), and navigate there from the command-line:
 
 ```sh
 cd ~/Desktop/daily-briefings-py/
