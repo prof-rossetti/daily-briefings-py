@@ -16,7 +16,7 @@ heroku apps # at this time, results might be empty-ish
 
 > IMPORTANT: run the following commands from the root directory of your repository!
 
-Use the online [Heroku Dashboard](https://dashboard.heroku.com/) or the command-line (instructions below) to [create a new application server](https://dashboard.heroku.com/new-app), specifying a unique name (e.g. "notification-app-123", but yours will need to be different):
+Use the command-line (instructions below) to create a new application server, specifying a unique name (e.g. "notification-app-123", but yours will need to be different):
 
 ```sh
 heroku create notification-app-123 # choose your own unique name!
@@ -100,7 +100,7 @@ From the "Resources" tab in your application's Heroku dashboard, search for an a
 
 ![a screenshot of provisioning the resource](https://user-images.githubusercontent.com/1328807/54228820-5e2b5180-44d9-11e9-9901-13c538a73ac4.png)
 
-> NOTE: if doing this for the first time, Heroku may ask you to provide billing info. Feel free to provide it, as the services we are using to complete this exercise are all free, and your card should not be charged!
+> NOTE: if doing this for the first time, Heroku may ask you to provide billing info. Feel free (but not obligated) to provide it, as the services we are using to complete this exercise are all free, and your card should not be charged!
 
 Finally, click on the provisioned "Heroku Scheduler" resource from the "Resources" tab, then click to "Add a new Job". When adding the job, choose to execute the designated python command (`python -m app.daily_briefing`) at a scheduled interval (e.g. every 10 minutes), and finally click to "Save" the job:
 
