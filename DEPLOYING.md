@@ -12,6 +12,9 @@ heroku apps # at this time, results might be empty-ish
 
 > NOTE: some students have reported that when running `heroku login` in Git Bash, it hangs after successfully logging them in. If this is the case for you, close that Git Bash window and when you open a new one you should be all set.
 
+> NOTE: if you're not able to get `git` and/or `heroku` installed, you may be able to explore the online Heroku interface to perform actions like creating and managing the server, and [auto-deploying](https://devcenter.heroku.com/articles/github-integration#automatic-deploys) your code straight from GitHub (instead of using the commands below).
+
+
 ## Server Setup
 
 > IMPORTANT: run the following commands from the root directory of your repository!
